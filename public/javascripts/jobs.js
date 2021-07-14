@@ -1,5 +1,5 @@
-let page = 1;
 
+let page = 1;
 function getUrl() {
     let url = "http://localhost:5000/jobs";
 
@@ -44,13 +44,19 @@ async function getJobs() {
 }
 
 function renderJobs(job) {
+    let milisec = Date.parse(job.postedDate)
+    let a = new Date(milisec)
+    let postedDate = a.toDateString();
     return `
         <div onmouseover="this.style.backgroundColor='beige';" onmouseout="this.style.backgroundColor='';" style="display: flex; flex-direction: column; align-items: center; width: 90vh; border: 1px solid black">
             <h4 style= "width: 480px; margin-top: 20px; font-size: 20px; margin-bottom: 0"> ${job.title} - ${job.city} </h4>
             <!-- <img src="" width=480px height=240px">   -->
            <div style="display: flex; justify-content: space-between; width:480px;" >
                 <h5> Up to ${job.salaryHigh}$ </h4>
+                <div>
                 <h6 class = "mb-0"> Years of Experience Expected :${job.yrsXPExpected}  </h6>
+                <h6 class = "mb-0"> Date Posted :${postedDate}  </h6>
+                </div>
             </div>
             <p style="width:480px "> ${job.description} </p>
         </div>

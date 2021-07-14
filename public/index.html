@@ -1,19 +1,43 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <title>Express</title>
-  <link href="/stylesheets/style.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITViec</title>
+  <link rel="stylesheet" href="./stylesheets/style.css"">
 </head>
-
 <body>
-  <div id="title"></div>
+  <div id="title">
+  </div>
+  <div style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
+    <button id="myBtn">Create A New Job</button>
+  </div>
   <div id="content" style="display: flex; flex-direction: column; align-items: center;">
   </div>
   <div style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
     <button onclick="renderNextPage()">Next</button>
+  </div>
+  <div id="myModal" class="modal">
 
-</div>
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form action="/signup" method="post" id="newjob">
+        <p>Allowed values: ID, Title, City, Highest Salary, Experience Years</p>
+        <input type="text" name="id" placeholder="Job's ID">
+        <input type="text" name="title" placeholder="Title">
+        <input type="text" name="city" placeholder="City">
+        <input type="text" name="salary" placeholder="Highest Salary Offered">
+        <input type="text" name="expyears" placeholder="Experience Years">
+        <input type="submit" value="Subscribe">
+      </form>
+    </div>
+
+  </div>
   <script src="./javascripts/jobs.js"></script>
-</body>
+
+  </body>
 
 </html>

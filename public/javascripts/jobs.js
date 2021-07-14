@@ -1,5 +1,64 @@
 
 let page = 1;
+
+/* Form Config */
+// let data = { name: "Alo" };
+
+async function createJob(data) {
+    let url = "http://localhost:5000/jobs";
+    let res = await fetch(url, { method: "POST", body: data })
+    console.log(res);
+    let a = await res.json();
+    console.log(a)
+}
+// createJob();
+let form = document.getElementById('newjob');
+
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    console.log({ form })
+    let id = form.elements['id'].value
+    let title = form.elements['title'].value
+    let city = form.elements['city'].value
+    let salary = form.elements['salary'].value
+    let expyears = form.elements['expyears'].value
+
+    let job = { "id": id, "city": city, "salary": salary, "expyears": expyears, "title": title }
+    postData("http://localhost:5000/jobs", job);
+    getJobs();
+    location.reload();
+
+})
+
+async function postData(url = '', data = {}) {
+    console.log(url);
+    let result;
+    // Default options are marked with *
+    try {
+        let response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+        console.log({ response })
+        result = await response.json()
+        return result; // parses JSON response into native JavaScript objects
+
+
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+
+
 function getUrl() {
     let url = "http://localhost:5000/jobs";
 
@@ -36,11 +95,11 @@ async function getJobs() {
         jobs = JSON.parse(localStorage.getItem("willWork"));
     }
     finally {
-        console.log({jobs})
+        console.log({ jobs })
         let jobHTML = jobs.map(renderJobs);
         document.getElementById("content").innerHTML = jobHTML.join("");
     }
-  
+
 }
 
 function renderJobs(job) {
@@ -69,3 +128,31 @@ function renderNextPage() {
     console.log("Invoke")
 }
 getJobs();
+
+
+//render modal form 
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function () {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

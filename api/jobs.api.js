@@ -5,15 +5,15 @@ let {jobs} = require('../data/jobs.json')
 let job = jobs[0];
 //Create
 
-const admissableFooParams = jobs.keys();
-
+const admissableFooParams = Object.keys(jobs[0]);
 router.post('/', (req, res) => {
     const job = {}
     for (const param of admissableFooParams) {
+        console.log(req.body)
         if(req.body[param]) job[param] = req.body[param];
     }
-    jobs.push(job);
-    res.send(job);  
+    jobs.unshift(job);
+    res.send({job});  
 })
 
 router.patch("/:id", (req, res) => {

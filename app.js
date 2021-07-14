@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require('./api/index');
+var usersRouter = require('./api/users');
 
 var app = express();
 
@@ -16,5 +18,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+/* function pagination(req, res, next) {
+    const page = parseInt(req.query.page, 10);
+    const limit = parseInt(req.query.limit);
+    req.start = start;
+    req.end = end;
+    req.id = req.params.id;
+    req.limit = 3;
+    next();
+} */
+// app.use('/', pagination, indexRouter);
 module.exports = app;

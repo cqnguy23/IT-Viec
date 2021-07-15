@@ -67,10 +67,10 @@ router.get('/', (req, res) => {
 
     /* Pagination for Categories */
     if (page && !companyName && !title && !city && !skills) {
-        temp = jobs.slice((page - 1) * 20, (page - 1) * 20 + 20);
+        temp = jobs.slice((page - 1) * 21, (page - 1) * 21 + 21);
     }
     else {
-        temp = temp[0].slice((page - 1) * 20, (page - 1) * 20 + 20);
+        temp = temp[0].slice((page - 1) * 21, (page - 1) * 21 + 21);
     }
 
     res.send(temp);

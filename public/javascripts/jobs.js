@@ -4,13 +4,19 @@ let page = 1;
 /* Form Config */
 // let data = { name: "Alo" };
 
-async function createJob(data) {
-    let url = "http://localhost:5000/jobs";
-    let res = await fetch(url, { method: "POST", body: data })
-    console.log(res);
-    let a = await res.json();
-    console.log(a)
+function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
 }
+
+console.log(makeid(5));
+
 // createJob();
 let form = document.getElementById('newjob');
 
@@ -19,18 +25,22 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     console.log({ form })
-    let id = form.elements['id'].value
+    let id = makeid(10);
     let title = form.elements['title'].value
     let city = form.elements['city'].value
     let salary = form.elements['salary'].value
     let expyears = form.elements['expyears'].value
     let postedDate = new Date()
     let job = { "id": id, "city": city, "salaryHigh": salary, "yrsXPExpected": expyears, "title": title, "postedDate": postedDate.toDateString() }
-    console.log({job})
+    console.log({ job })
     await postData("http://localhost:5000/jobs", job);
     getJobs();
 
 })
+
+
+
+
 
 async function postData(url = '', data = {}) {
     console.log(url);
@@ -49,12 +59,39 @@ async function postData(url = '', data = {}) {
         console.log({ response })
         result = await response.json()
         return result; // parses JSON response into native JavaScript objects
-
-
     }
     catch (err) {
         console.log(err);
     }
+}
+async function deleteJob(id) {
+    console.log("Here");
+    let url = getUrl() + "/" + id;
+    await deleteData(url);
+    getJobs();
+}
+async function deleteData(url) {
+    console.log();
+    let result;
+    // Default options are marked with *
+    try {
+        let response = await fetch(url, {
+            method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+        console.log({ response })
+        result = await response.json()
+        return result; // parses JSON response into native JavaScript objects
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    
 }
 
 
@@ -105,10 +142,18 @@ function renderJobs(job) {
     let milisec = Date.parse(job.postedDate)
     let a = new Date(milisec)
     let postedDate = a.toDateString();
+    let id = job.id;
     return `
         <div class="col">
           <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text font-weight="bold" font-size="15px" x="5%" y="50%" fill="#eceeef" dy=".3em">${job.title} - ${job.city}</text></svg>
+            <span class="close" onclick="deleteJob('${id}')" id="closeButton" style="align-self: flex-end">&times;</span>
+          
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <rect width="100%" height="100%" fill="#55595c"/>
+            
+            <text font-weight="bold" font-size="15px" x="5%" y="50%" fill="#eceeef" >${job.title} - ${job.city}</text>
+            
+            </svg>
             <div class="card-body">
               <h6> Up to ${job.salaryHigh}$ </h4>
               <h6> Years of Experience Expected :${job.yrsXPExpected}  </h6>

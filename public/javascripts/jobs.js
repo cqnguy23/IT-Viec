@@ -15,7 +15,7 @@ async function createJob(data) {
 let form = document.getElementById('newjob');
 
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     console.log({ form })
@@ -24,11 +24,11 @@ form.addEventListener('submit', (event) => {
     let city = form.elements['city'].value
     let salary = form.elements['salary'].value
     let expyears = form.elements['expyears'].value
-
-    let job = { "id": id, "city": city, "salary": salary, "expyears": expyears, "title": title }
-    postData("http://localhost:5000/jobs", job);
+    let postedDate = new Date()
+    let job = { "id": id, "city": city, "salaryHigh": salary, "yrsXPExpected": expyears, "title": title, "postedDate": postedDate.toDateString() }
+    console.log({job})
+    await postData("http://localhost:5000/jobs", job);
     getJobs();
-    location.reload();
 
 })
 
@@ -85,7 +85,6 @@ async function getJobs() {
         else {
             jobs = jobs.concat(json);
         }
-        document.getElementById("title").innerHTML = `<h1 style="text-align: center; color:blue; margin-top: 15px"> ITViec </h1>`;
 
         localStorage.setItem("willNotWork", jobs);
 
@@ -107,17 +106,22 @@ function renderJobs(job) {
     let a = new Date(milisec)
     let postedDate = a.toDateString();
     return `
-        <div onmouseover="this.style.backgroundColor='beige';" onmouseout="this.style.backgroundColor='';" style="display: flex; flex-direction: column; align-items: center; width: 90vh; border: 1px solid black">
-            <h4 style= "width: 480px; margin-top: 20px; font-size: 20px; margin-bottom: 0"> ${job.title} - ${job.city} </h4>
-            <!-- <img src="" width=480px height=240px">   -->
-           <div style="display: flex; justify-content: space-between; width:480px;" >
-                <h5> Up to ${job.salaryHigh}$ </h4>
-                <div>
-                <h6 class = "mb-0"> Years of Experience Expected :${job.yrsXPExpected}  </h6>
-                <h6 class = "mb-0"> Date Posted :${postedDate}  </h6>
+        <div class="col">
+          <div class="card shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text font-weight="bold" font-size="15px" x="5%" y="50%" fill="#eceeef" dy=".3em">${job.title} - ${job.city}</text></svg>
+            <div class="card-body">
+              <h6> Up to ${job.salaryHigh}$ </h4>
+              <h6> Years of Experience Expected :${job.yrsXPExpected}  </h6>
+              <h6> Date Posted :${postedDate}  </h6>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
+                <small class="text-muted">9 mins</small>
+              </div>
             </div>
-            <p style="width:480px "> ${job.description} </p>
+          </div>
         </div>
     `
 }

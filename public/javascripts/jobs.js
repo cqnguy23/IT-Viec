@@ -212,7 +212,7 @@ function renderJobs(job) {
         style="align-self: flex-end">&times;</span>
       
         <div style = "margin: 40px 1rem 0 1rem">
-          <h3 font-weight="bold" font-size="5px" fill="red">${job.title} <i>(${job.companyName})</i></h3>
+          <h4 font-weight="bold" font-size="5px" fill="red">${job.title} <i>(${job.companyName})</i></h3>
         </div>
       
       <div class="card-body" style="margin-top: 20px;">
@@ -220,7 +220,10 @@ function renderJobs(job) {
         <h6> Up to ${job.salaryHigh}$ </h4>
           <h6> Years of Experience Expected :${job.yrsXPExpected} </h6>
           <h6> Date Posted :${postedDate} </h6>
-          
+          <div class="d-flex justify-content-between align-items-center">
+           
+            <small class="text-muted">9 mins</small>
+          </div>
       </div>
     </div>
   </div>

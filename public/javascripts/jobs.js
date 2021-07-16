@@ -1,8 +1,9 @@
 
 let page = 1;
-
+let inSearchMode=false;
 /* Form Config */
 // let data = { name: "Alo" };
+let jobs = []
 
 function makeid(length) {
     var result = '';
@@ -36,15 +37,17 @@ form.addEventListener('submit', async (event) => {
     getJobs();
 
 })
-
+let query;
 let searchBar = document.getElementById('searchBar')
 
 searchBar.addEventListener('submit', async (event) => {
     event.preventDefault();
-    let query = searchBar.elements['query'].value
+    inSearchMode = true;
+    query = searchBar.elements['query'].value
     console.log({ query })
 
     await searchData(getUrl("jobs"), query)
+    
 })
 
 async function searchData(url, query) {
@@ -148,7 +151,6 @@ function getUrl(type) {
         } */
     return url;
 }
-let jobs = []
 async function getJobs() {
     try {
         let urlToGet = getUrl("jobs") + `?page=${page}`
@@ -212,7 +214,7 @@ function renderJobs(job) {
         style="align-self: flex-end">&times;</span>
       
         <div style = "margin: 40px 1rem 0 1rem">
-          <h4 font-weight="bold" font-size="5px" fill="red">${job.title} <i>(${job.companyName})</i></h3>
+          <h4    font-weight="bold" font-size="5px" fill="red">${job.title} <i>(${job.companyName})</i></h3>
         </div>
       
       <div class="card-body" style="margin-top: 20px;">
@@ -232,7 +234,13 @@ function renderJobs(job) {
 
 function renderNextPage() {
     ++page;
-    getJobs();
+    if (inSearchMode || query=="") {
+        searchData(getUrl("jobs"), query)
+    }
+    else {
+        getJobs();
+    }
+    
     console.log("Invoke")
 }
 getJobs();

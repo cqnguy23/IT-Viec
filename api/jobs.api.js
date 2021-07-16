@@ -64,7 +64,7 @@ router.get('/', (req, res) => {
         })
         temp.push(varJobs);
     }
-
+    console.log(q)
     if (q) {
         let varJobs = jobs.filter(job => job.title.toLowerCase().includes(q.toLowerCase()))
         temp.push(varJobs)
@@ -77,7 +77,6 @@ router.get('/', (req, res) => {
     else {
         temp = temp[0].slice((page - 1) * 21, (page - 1) * 21 + 21);
     }
-
     res.send(temp);
 })
 

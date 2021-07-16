@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <div class="container">
         <a href="#" class="navbar-brand d-flex align-items-center">
@@ -47,19 +47,29 @@
           </svg>
           <strong>Chuong Nguyen</strong>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
-          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <div style="display: flex">
+          <form class="input-group" style="width:auto; margin-right: 20px;" id="searchBar">
+            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+              aria-describedby="search-addon" name="query" />
+            <button type="submit" class="btn btn-outline-secondary">search</button>
+          </form>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+            aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
       </div>
+
     </div>
   </header>
+
   <main>
     <section class="py-5 text-center container">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
           <h1 class="fw-light">Job Postings</h1>
-          <p class="lead text-muted">A collection of in-demand jobs for talented developers to enhance their skills and experience. </p>
+          <p class="lead text-muted">A collection of in-demand jobs for talented developers to enhance their skills and
+            experience. </p>
           <p>
             <button id="myBtn" class="btn btn-primary my-2">Create a new job</button>
           </p>
@@ -73,6 +83,10 @@
     <!-- <div id="content" style="display: flex; flex-direction: column; align-items: center;">
   </div> -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="content">
+
+
+
+
     </div>
     <div style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
       <button onclick="renderNextPage()" id="myBtn" class="btn btn-primary my-2">Next</button>
@@ -83,15 +97,6 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close" id="closeButton">&times;</span>
-        <!-- <form action="/signup" method="post" id="newjob">
-        <p>Allowed values: ID, Title, City, Highest Salary, Experience Years</p>
-        <input type="text" name="id" placeholder="Job's ID">
-        <input type="text" name="title" placeholder="Title">
-        <input type="text" name="city" placeholder="City">
-        <input type="text" name="salary" placeholder="Highest Salary Offered">
-        <input type="text" name="expyears" placeholder="Experience Years">
-        <input type="submit" value="Subscribe">
-      </form> -->
         <form action="/signup" method="post" id="newjob">
           <div class="form-group">
             <label for="exampleInputPassword1">Title</label>
@@ -99,16 +104,15 @@
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">City</label>
-            <input type="text" class="form-control" name="city"  placeholder="City">
+            <input type="text" class="form-control" name="city" placeholder="City">
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Salary</label>
-            <input type="text" class="form-control" name="salary"  placeholder="Salary">
+            <input type="text" class="form-control" name="salary" placeholder="Salary">
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Experience Years</label>
-            <input type="text" class="form-control" name="expyears" 
-              placeholder="Experience Years">
+            <input type="text" class="form-control" name="expyears" placeholder="Experience Years">
           </div>
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">

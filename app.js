@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+let cors = require('cors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -9,6 +9,7 @@ var indexRouter = require('./api/index');
 var usersRouter = require('./api/users');
 
 var app = express();
+app.use(cors())
 
 app.use(logger('dev'));
 app.use(express.json());

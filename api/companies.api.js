@@ -32,7 +32,7 @@ router.patch("/:id", (req, res) => {
 
 router.get('/', (req, res) => {
 
-    let { page = 1, name, title, city, skills, cities, sortBy } = req.query
+    let { page = 1, name, title, city, skills, cities, sortBy, displayAll = false } = req.query
 
     let temp = [];
     if (name) {
@@ -144,9 +144,11 @@ router.get('/', (req, res) => {
         // dummyCompanies.forEach((company) => { delete company["avgRating"]; }) //add this if want to delete avgRating key
         temp.push(dummyCompanies)
     }
-
+    if (displayAll) {
+        temp = companies;
+    }
     /* Pagination for Categories */
-    if (page && !name && !title && !city && !skills && !sortBy) {
+    else if (page && !name && !title && !city && !skills && !sortBy && !displayAll) {
         temp = companies.slice((page - 1) * 20, (page - 1) * 20 + 20);
     }
    /*  else if (sortBy) {

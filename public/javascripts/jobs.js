@@ -15,7 +15,6 @@ function makeid(length) {
     return result;
 }
 
-console.log(makeid(5));
 
 // createJob();
 let form = document.getElementById('newjob');
@@ -33,13 +32,51 @@ form.addEventListener('submit', async (event) => {
     let postedDate = new Date()
     let job = { "id": id, "city": city, "salaryHigh": salary, "yrsXPExpected": expyears, "title": title, "postedDate": postedDate.toDateString() }
     console.log({ job })
-    await postData("http://localhost:5000/jobs", job);
+    await postData(getUrl("jobs"), job);
     getJobs();
 
 })
 
+let searchBar = document.getElementById('searchBar')
 
+searchBar.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    let query = searchBar.elements['query'].value
+    console.log({ query })
 
+    await searchData(getUrl("jobs"), query)
+})
+
+async function searchData(url, query) {
+    try {
+        let urlToGet = url + "?q=" + query;
+        console.log(urlToGet)
+        let response = await fetch(urlToGet);
+        const json = await response.json();
+        if (page == 1) {
+            jobs = json;
+        }
+        else {
+            jobs = jobs.concat(json);
+        }
+
+        localStorage.setItem("willNotWork", jobs);
+
+        localStorage.setItem("willWork", JSON.stringify(jobs));
+        jobs = await Promise.all(jobs.map( async (job) =>  {
+            return { ...job, companyName: await getCompanyName(job.companyId)}
+        }))
+        
+    } catch (error) {
+        console.log(error);
+        jobs = JSON.parse(localStorage.getItem("willWork"));
+    }
+    finally { 
+        let jobHTML = jobs.map(renderJobs);
+        document.getElementById("content").innerHTML = jobHTML.join("");
+    }
+
+}
 
 
 async function postData(url = '', data = {}) {
@@ -66,7 +103,7 @@ async function postData(url = '', data = {}) {
 }
 async function deleteJob(id) {
     console.log("Here");
-    let url = getUrl() + "/" + id;
+    let url = getUrl("jobs") + "/" + id;
     await deleteData(url);
     getJobs();
 }
@@ -96,9 +133,14 @@ async function deleteData(url) {
 
 
 
-function getUrl() {
-    let url = "http://localhost:5000/jobs";
+function getUrl(type) {
 
+    let url = "http://localhost:5000/";
+    if (type != "companies" && type != "jobs") {
+        console.log("wrong input url")
+    }
+
+    url += type
     /* const urlExtension = window.location.search.split("?")[1];
         if (!urlExtension) {url += "&country=us"}    
         else {
@@ -109,7 +151,7 @@ function getUrl() {
 let jobs = []
 async function getJobs() {
     try {
-        let urlToGet = getUrl() + `?page=${page}`
+        let urlToGet = getUrl("jobs") + `?page=${page}`
         /* if (queryPresent) {
             urlToGet += q ;
         } */
@@ -126,17 +168,36 @@ async function getJobs() {
         localStorage.setItem("willNotWork", jobs);
 
         localStorage.setItem("willWork", JSON.stringify(jobs));
+        jobs = await Promise.all(jobs.map( async (job) =>  {
+            return { ...job, companyName: await getCompanyName(job.companyId)}
+        }))
+        
     } catch (error) {
         console.log(error);
         jobs = JSON.parse(localStorage.getItem("willWork"));
     }
-    finally {
-        console.log({ jobs })
+    finally { 
         let jobHTML = jobs.map(renderJobs);
         document.getElementById("content").innerHTML = jobHTML.join("");
     }
 
 }
+
+async function getCompanyName(id) {
+    let name;
+    let companies = [];
+    try {
+        const res = await fetch(getUrl("companies") + "?displayAll=true");
+        companies = await res.json();
+        name = await companies.find(company => company.id == id).name
+    } catch (err) {
+        console.log(err)
+    }
+ 
+    return name;
+}
+
+getCompanyName("_fdozh6xci");
 
 function renderJobs(job) {
     let milisec = Date.parse(job.postedDate)
@@ -144,30 +205,31 @@ function renderJobs(job) {
     let postedDate = a.toDateString();
     let id = job.id;
     return `
-        <div class="col">
-          <div class="card shadow-sm">
-            <span class="close" onclick="deleteJob('${id}')" id="closeButton" style="align-self: flex-end">&times;</span>
-          
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <rect width="100%" height="100%" fill="#55595c"/>
-            
-            <text font-weight="bold" font-size="15px" x="5%" y="50%" fill="#eceeef" >${job.title} - ${job.city}</text>
-            
-            </svg>
-            <div class="card-body">
-              <h6> Up to ${job.salaryHigh}$ </h4>
-              <h6> Years of Experience Expected :${job.yrsXPExpected}  </h6>
-              <h6> Date Posted :${postedDate}  </h6>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
+    <div class="col">
+    <div class="card shadow-sm" style="height: 45vh">
+
+      <span style="position: absolute; right: 0;" class="close" onclick="deleteJob('${id}')" id="closeButton"
+        style="align-self: flex-end">&times;</span>
+      
+        <div style = "margin: 40px 1rem 0 1rem">
+          <h3 font-weight="bold" font-size="5px" fill="red">${job.title} <i>(${job.companyName})</i></h3>
         </div>
+      
+      <div class="card-body" style="margin-top: 20px;">
+        
+        <h6> Up to ${job.salaryHigh}$ </h4>
+          <h6> Years of Experience Expected :${job.yrsXPExpected} </h6>
+          <h6> Date Posted :${postedDate} </h6>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group" style="margin-top:15px" >
+              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+            </div>
+            <small class="text-muted">9 mins</small>
+          </div>
+      </div>
+    </div>
+  </div>
     `
 }
 

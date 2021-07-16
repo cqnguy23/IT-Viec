@@ -2,7 +2,8 @@
 const express = require('express');
 const router = express.Router();
 let {jobs} = require('../data/jobs.json')
-let job = jobs[0];
+let { companies } = require('../data/jobs.json')
+
 //Create
 
 const admissableFooParams = Object.keys(jobs[0]);
@@ -32,7 +33,7 @@ router.patch("/:id", (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    let { page = 1, companyName, title, city, skills } = req.query
+    let { page = 1, companyName, title, city, skills, q } = req.query
 
     let temp = [];
     if (companyName) {
@@ -53,7 +54,6 @@ router.get('/', (req, res) => {
     }
 
     if (skills) {
-        console.log(jobs[0].skills)
         let varJobs = jobs.filter(job => { //search if skill includes part of param
             let result = false;
             job.skills.forEach((skill) => {
@@ -65,8 +65,13 @@ router.get('/', (req, res) => {
         temp.push(varJobs);
     }
 
+    if (q) {
+        let varJobs = jobs.filter(job => job.title.toLowerCase().includes(q.toLowerCase()))
+        temp.push(varJobs)
+    }
     /* Pagination for Categories */
-    if (page && !companyName && !title && !city && !skills) {
+ 
+    if (page && !companyName && !title && !city && !skills && !q) {
         temp = jobs.slice((page - 1) * 21, (page - 1) * 21 + 21);
     }
     else {
@@ -77,13 +82,7 @@ router.get('/', (req, res) => {
 })
 
 router.delete("/:id", (req, res) => {
-    jobs = jobs.reduce((result, job) => {       
-        if (job.id != req.params.id) {
-            result.push(job);
-        }
-        return result;
-    }, [])
-
+    jobs = jobs.filter(job => job.id != req.params.id)
     console.log(jobs);
     res.send(jobs); 
 })

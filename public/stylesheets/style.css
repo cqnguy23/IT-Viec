@@ -42,3 +42,8 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
+
+text {
+  display: block;
+  white-space:normal;
+}

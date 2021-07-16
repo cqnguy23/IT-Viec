@@ -206,7 +206,7 @@ function renderJobs(job) {
     let id = job.id;
     return `
     <div class="col">
-    <div class="card shadow-sm" style="height: 45vh">
+    <div class="card shadow-sm card1" style="height: 45vh">
 
       <span style="position: absolute; right: 0;" class="close" onclick="deleteJob('${id}')" id="closeButton"
         style="align-self: flex-end">&times;</span>
@@ -220,13 +220,7 @@ function renderJobs(job) {
         <h6> Up to ${job.salaryHigh}$ </h4>
           <h6> Years of Experience Expected :${job.yrsXPExpected} </h6>
           <h6> Date Posted :${postedDate} </h6>
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="btn-group" style="margin-top:15px" >
-              <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-            </div>
-            <small class="text-muted">9 mins</small>
-          </div>
+          
       </div>
     </div>
   </div>

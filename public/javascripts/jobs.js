@@ -15,11 +15,27 @@ function makeid(length) {
     }
     return result;
 }
+//admin authorization
+let authorization = document.getElementById('password')
+let password = "";
+authorization.addEventListener('submit', (event) => {
+    event.preventDefault();
+    password = authorization.elements['password'].value
+    adminAuthentication(password)
+})
+function adminAuthentication(password) {
+    let helpBlock = document.getElementById('passwordHelpBlock')
+    if (password == "admin") {
+        helpBlock.innerHTML = "You are logged in as an admin"
+    }
+    else {
+        helpBlock.innerHTML = "You are logged in as a user"
 
+    }
+}
 
 // createJob();
 let form = document.getElementById('newjob');
-
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -92,6 +108,7 @@ async function postData(url = '', data = {}) {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization' : `${password}`
                 // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify(data), // body data type must match "Content-Type" header
@@ -120,6 +137,7 @@ async function deleteData(url) {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization' : `${password}`
                 // 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });

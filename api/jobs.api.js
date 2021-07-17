@@ -7,7 +7,7 @@ let { companies } = require('../data/jobs.json')
 //Create
 
 const admissableFooParams = Object.keys(jobs[0]);
-router.post('/', (req, res) => {
+router.post('/', authentication, (req, res) => {
     const job = {}
     for (const param of admissableFooParams) {
         console.log(req.body)
@@ -16,7 +16,16 @@ router.post('/', (req, res) => {
     jobs.unshift(job);
     res.send({job});  
 })
-
+function authentication(req, res, next) {
+    let isAdmin = req.headers.authorization == 'admin';
+    if (isAdmin) {
+        next();
+    }
+    else {
+        res.status(401).send({error: "Not authorized"})
+        throw Error("Sorry you are not authorized to perform this task.")
+    }
+}
 router.patch("/:id", (req, res) => {
 
     jobs = jobs.map((job) => {
@@ -80,7 +89,7 @@ router.get('/', (req, res) => {
     res.send(temp);
 })
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", authentication, (req, res) => {
     jobs = jobs.filter(job => job.id != req.params.id)
     console.log(jobs);
     res.send(jobs); 

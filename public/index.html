@@ -18,11 +18,17 @@
     <div class="collapse bg-dark" id="navbarHeader">
       <div class="container">
         <div class="row">
-          <div class="col-sm-8 col-md-7 py-4">
-            <h4 class="text-white">About</h4>
-            <p class="text-muted">Add some information about the album below, the author, or any other background
-              context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off
-              to some social networking sites or contact information.</p>
+          
+          <div class="col-sm-8 col-md-7 py-4" >
+            <form id="password" style="display:flex; flex-direction: column;">
+            <label for="inputPassword5" class="form-label">Password</label>
+            <input type="password" id="inputPassword5" name="password" class="form-control" aria-describedby="passwordHelpBlock">
+            <button type="submit" class="btn btn-danger">Submit</button>
+
+            <div id="passwordHelpBlock" class="form-text" style="align-self: center; color:whitesmoke">
+            You are logged in as an user.
+            </div>
+          </form>
           </div>
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
@@ -89,7 +95,7 @@
 
     </div>
     <div style="display: flex; justify-content: center; margin: 10px 0 10px 0;">
-      <button onclick="renderNextPage()" id="myBtn" class="btn btn-primary my-2">Next</button>
+      <button onclick="renderNextPage()" id="myBtn" class="btn btn-outline-danger">Next</button>
 
     </div>
     <div id="myModal" class="modal">

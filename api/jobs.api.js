@@ -42,7 +42,7 @@ router.patch("/:id", (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    let { page = 1, companyName, title, city, skills, q } = req.query
+    let { page = 1, companyName, title, city, skills, q, id } = req.query
 
     let temp = [];
     if (companyName) {
@@ -50,6 +50,11 @@ router.get('/', (req, res) => {
             return findCompanyNames(job.id, companyName)
         })
         temp.push(varJobs);
+    }
+    if (id) {
+        let varJobs = jobs.find(job => job.id == id)
+        temp.push(varJobs);
+        
     }
 
     if (title) {
@@ -79,8 +84,10 @@ router.get('/', (req, res) => {
         temp.push(varJobs)
     }
     /* Pagination for Categories */
- 
-    if (page && !companyName && !title && !city && !skills && !q) {
+    if (id) {
+        temp = temp;
+    }
+    else if (page && !companyName && !title && !city && !skills && !q) {
         temp = jobs.slice((page - 1) * 21, (page - 1) * 21 + 21);
     }
     else {

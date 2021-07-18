@@ -127,6 +127,8 @@ async function deleteJob(id) {
     await deleteData(url);
     getJobs();
 }
+
+
 async function deleteData(url) {
     console.log();
     let result;
@@ -157,7 +159,7 @@ async function deleteData(url) {
 function getUrl(type) {
 
     let url = "http://localhost:5000/";
-    if (type != "companies" && type != "jobs") {
+    if (type != "companies" && type != "jobs" && type != "users") {
         console.log("wrong input url")
     }
 
@@ -240,9 +242,10 @@ function renderJobs(job) {
         <h6> Up to ${job.salaryHigh}$ </h4>
           <h6> Years of Experience Expected :${job.yrsXPExpected} </h6>
           <h6> Date Posted :${postedDate} </h6>
-          <div class="d-flex justify-content-between align-items-center">
-           
-            <small class="text-muted">9 mins</small>
+          <div class="d-flex justify-content-end align-items-center">
+          <a onclick="saveJob('${job.id}')"  style="color:none; cursor: pointer;">
+          <i class="fas fa-save" style="font-size: 25px;"></i>
+          </a>
           </div>
       </div>
     </div>
@@ -290,3 +293,5 @@ window.onclick = function (event) {
         modal.style.display = "none";
     }
 }
+
+

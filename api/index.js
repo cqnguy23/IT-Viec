@@ -13,5 +13,7 @@ router.use("/jobs", jobsApi)
 const companiesApi = require('./companies.api')
 router.use("/companies", companiesApi)
 
+const usersApi = require('./users.api')
+router.use("/users", usersApi)
 
 module.exports = router;

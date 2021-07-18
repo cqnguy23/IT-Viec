@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./stylesheets/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/d07626143e.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -18,17 +19,18 @@
     <div class="collapse bg-dark" id="navbarHeader">
       <div class="container">
         <div class="row">
-          
-          <div class="col-sm-8 col-md-7 py-4" >
-            <form id="password" style="display:flex; flex-direction: column;">
-            <label for="inputPassword5" class="form-label">Password</label>
-            <input type="password" id="inputPassword5" name="password" class="form-control" aria-describedby="passwordHelpBlock">
-            <button type="submit" class="btn btn-danger">Submit</button>
 
-            <div id="passwordHelpBlock" class="form-text" style="align-self: center; color:whitesmoke">
-            You are logged in as an user.
-            </div>
-          </form>
+          <div class="col-sm-8 col-md-7 py-4">
+            <form id="password" style="display:flex; flex-direction: column;">
+              <label for="inputPassword5" class="form-label">Password</label>
+              <input type="password" id="inputPassword5" name="password" class="form-control"
+                aria-describedby="passwordHelpBlock">
+              <button type="submit" class="btn btn-danger">Submit</button>
+
+              <div id="passwordHelpBlock" class="form-text" style="align-self: center; color:whitesmoke">
+                You are logged in as an user.
+              </div>
+            </form>
           </div>
           <div class="col-sm-4 offset-md-1 py-4">
             <h4 class="text-white">Contact</h4>
@@ -54,7 +56,14 @@
           <strong>Chuong Nguyen</strong>
         </a>
         <div style="display: flex">
-          <form class="input-group" style="width:auto; margin-right: 20px;" id="searchBar">
+          <div style="
+          display: flex;
+          align-items: center;
+          margin-right: 15px;
+          cursor: pointer;" id="saveButton"  >
+            <i onclick="getSavedJobs()" class="fas fa-shopping-cart" style="color: white; font-size: 25px;"></i>
+        </div>
+          <form class="input-group" style="width:auto; margin-right: 10px;" id="searchBar">
             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
               aria-describedby="search-addon" name="query" />
             <button type="submit" class="btn btn-outline-secondary">search</button>
@@ -129,8 +138,20 @@
       </div>
 
     </div>
+
+
+    <div id="savedJobs" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content" id="savedJobs-content">
+        <span class="close" id="closeJobsButton">&times;</span>
+        
+      </div>
+
+    </div>
   </main>
   <script src="./javascripts/jobs.js"></script>
+  <script src="./javascripts/user.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>

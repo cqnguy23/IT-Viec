@@ -60,9 +60,9 @@
           display: flex;
           align-items: center;
           margin-right: 15px;
-          cursor: pointer;" id="saveButton"  >
+          cursor: pointer;" id="saveButton">
             <i onclick="getSavedJobs()" class="fas fa-shopping-cart" style="color: white; font-size: 25px;"></i>
-        </div>
+          </div>
           <form class="input-group" style="width:auto; margin-right: 10px;" id="searchBar">
             <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
               aria-describedby="search-addon" name="query" />
@@ -143,9 +143,11 @@
     <div id="savedJobs" class="modal">
 
       <!-- Modal content -->
-      <div class="modal-content" id="savedJobs-content">
+      <div class="modal-content">
         <span class="close" id="closeJobsButton">&times;</span>
-        
+        <h3>Your saved jobs:</h3>
+        <div class="modal-content" id="savedJobs-content">
+        </div>
       </div>
 
     </div>

@@ -50,7 +50,7 @@ async function getSavedJobs() {
     }
     finally { 
         let jobHTML = savedJobs.map(renderSavedJob);
-        document.getElementById("savedJobs-content").innerHTML += jobHTML.join("");
+        document.getElementById("savedJobs-content").innerHTML = jobHTML.join("");
     }
 
 }
@@ -121,7 +121,6 @@ console.log(jobSpan.onclick)
 // When the user clicks on <jobSpan> (x), close the jobsModal
 jobSpan.onclick = () => {
 console.log(jobSpan.onclick);
-
     jobsModal.style.display = "none";
 }
 
